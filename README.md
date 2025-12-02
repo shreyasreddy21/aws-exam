@@ -136,18 +136,27 @@ kubectl scale deployment mynginx --replicas=4
 minikube start --driver=docker
 
 kubectl create deployment mynginx --image=nginx
+
 kubectl get deployments
+
 kubectl get pods
 
 kubectl expose deployment mynginx --type=NodePort --port=80 --target-port=80
+
 kubectl get svc
 
 minikube service mynginx
+
 kubectl port-forward svc/mynginx 8081:80 
+
 kubectl scale deployment mynginx --replicas=4
+
 kubectl get pods
+
 kubectl port-forward svc/mynginx 8081:80 
+
 kubectl delete deployment mynginx
+
 kubectl delete svc mynginx
 
 
