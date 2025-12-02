@@ -1,3 +1,41 @@
+1(i) Load from json
+(index.html)
+<!DOCTYPE html>
+<html>
+<body>
+<button onclick="load()">Load JSON</button>
+<div id="out"></div>
+<script>
+async function load() {
+  let data = await (await fetch("s1.json")).json();
+  let arr = data.student;
+  let keys = Object.keys(arr[0]);
+  let table = "<table border='1'><tr>" +
+              keys.map(k => "<th>" + k + "</th>").join("") +
+              "</tr>";
+  arr.forEach(obj => {
+    table += "<tr>" + keys.map(k => "<td>" + obj[k] + "</td>").join("") + "</tr>";
+  });
+  table += "</table>";
+  document.getElementById("out").innerHTML = table;
+}
+</script>
+</body>
+</html>
+
+(students.json)
+{
+  "student": [
+    { "name": "Bhavana", "age": 20, "college": "KMIT", "year": 3, "sem": 1 },
+    { "name": "Ram", "age": 21, "college": "JNTU", "year": 4, "sem": 2 },
+    { "name": "John", "age": 26, "college": "KMEC", "year": 1, "sem": 1 },
+    { "name": "Reena", "age": 19, "college": "NGIT", "year": 3, "sem": 1 }
+  ]
+}
+
+
+
+
 1(j) display student GPA
 <!DOCTYPE html>
 <html>
