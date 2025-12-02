@@ -38,17 +38,13 @@ sudo su
 sudo apt-get update
 
 sudo apt-get install docker.io
-
-sudo docker --version
-
-sudo docker images
-
-sudo docker ps
+sudo apt intall git
+sudo apt install nano
 
 git clone http of maven-web application
 
 -navigate to maven-web application 
-
+ls
 cd maven-web folder name
 
 ls
@@ -57,14 +53,9 @@ nano DockerFile
 
 
 
-sudo docker built -t img1 .
+sudo docker built -t mywebapp .
 
-
-
-
-sudo docker images
-
-sudo docker run -d -p 8080:8080 img1
+sudo docker run -d -p 80:80 mywebapp
 
 then go to chrome incognito and paste go into details and paste auto assigned ip address in incognito with port no 
 
@@ -74,55 +65,45 @@ ex 3.231.271.190:8080
 
 
 welcome to maven web! in local host
-
+sudo docker ps
+sudo docker stop [id]
 
 
 -----------------------------------------------------------------------------------
-Q ) kuberenetes - minikube
-
-pre req- docker desktop and docker image
-
-
-
-Minikube cmds- 
+FROM node:16-alpine
+WORKDIR /app
+COPY calculator.js /app
+CMD ["node", "calculator.js"]
 
 
+FROM nginx:alpine
+COPY . /usr/share/nginx/html
+----------------------------------------------------------------------------------
+Docker power shell calc
+docker build -t simple-calc
+docker run simple-calc
+docker ps
+docker login
+docker tag simple-calc [dockerusername]/simple-calc
+docker push [dockerusername]/simple-calc
 
+(del img)
+docker ps -a
+docker rm [container_id]
+docker rmi [dockerusername]/simple-calc
 
+(again pull from docker hub)
+docker pull [dockerusername]/simple-calc
+docker run [dockerusername]/simple-calc
 
-minkube start
+(again del)
+docker rm [container_id]
+docker rmi [dockerusername]/simple-calc
 
-minikube status
+docker logout
+----------------------------------------------------------------------------------
 
-kubectl get deployments
-
---if u have previous deployments so to delete
-
-kubectl delete deployment dep\_name
-
-kubectl get pods
-
--- to delete the pods 
-
-kubectl delete pod pod\_name
-
--- to create deployment 
-
-kubectl create deployment mynginx --image=<docker hub image name>
-
-eg: kubectl create deployment mynginx --image=<imagename>
-
--go to docker hub
-
--go to repo
-
--click on public view
-
--image name 
-
---------
-
-\- default image present in docker is nginx
+\- minikube start
 
 kubectl create deployment mynginx --image=nginx
 
@@ -132,15 +113,13 @@ kubectl get deployments
 
 kubectl get pods 
 
-kubectl describe pods 
-
 //expose deployment service
 
 kubectl expose deployment mynginx --type=NodePort --port=80 --target-port=80 -- for default like nginx
 
 kubectl expose deployment mynginx --type=NodePort --port=8080 --target-port=8080 -- for customade images
 
-kubectl get service mynginx 
+
 
 kubectl port-forward svc/mynginx 80:80 - for nginx 
 
@@ -164,14 +143,48 @@ kubectl expose deployment mynginx --type=NodePort --port=80 --target-port=80
 kubectl get svc
 
 minikube service mynginx
-
+kubectl port-forward svc/mynginx 8081:80 
 kubectl scale deployment mynginx --replicas=4
 kubectl get pods
-
+kubectl port-forward svc/mynginx 8081:80 
 kubectl delete deployment mynginx
 kubectl delete svc mynginx
 
 
+--------------------------------------------------------------------------
+pipeline {
+    agent any
+    tools{
+        maven 'maven3'
+    }
+    stages {
+        stage('git repo & clean') {
+            steps {
+                 bat """if exist myjavaapp (
+                        rmdir /s /q myjavaapp
+                      )"""
+                //bat "rmdir  /s /q mavenjava"
+                bat "git clone https://github.com/adityapanyala/myjavaapp.git"
+                bat "mvn clean -f myjavaapp"
+            }
+        }
+        stage('install') {
+            steps {
+                bat "mvn install -f myjavaapp" 
+            }
+        }
+        stage('test') {
+            steps {
+                bat "mvn test -f myjavaapp"
+            }
+        }
+        stage('package') {
+            steps {
+                bat "mvn package -f myjavaapp"
+            }
+        }
+    }
+}
 --------------------------------------------------------------------------
 
 ngrok - tunnelling
@@ -209,9 +222,9 @@ from ngrok http 80 running in ngrok application in downloads C:/
 ----------------------------------------------------
 ngios- 
 
-1)
-
-docker run -d -p 3000:80 jasonrivers/nagios
+1)docker pull jasonrivers/nagios:latest
+docker run --name nagiosdemo -p 3000:80 jasonrivers/nagios:latest
+//docker run -d -p 3000:80 jasonrivers/nagios
 
 open localhost:3000 in browser
 
