@@ -1,3 +1,145 @@
+//1a
+const readline = require("readline");
+const q = readline.createInterface(process.stdin, process.stdout);
+
+q.question("Enter a word: ", (name) => {
+  let x = name;
+  let y = "";
+
+  for (let i = 0; i < x.length; i++) {
+    let ch = x.charAt(i);
+
+    if (ch >= "A" && ch <= "Z") {
+      y += ch.toLowerCase();
+    } else if (ch >= "a" && ch <= "z") {
+      y += ch.toUpperCase();
+    } else {
+      y += ch; // keep non-letters same
+    }
+  }
+
+  console.log(`The Swapped Word is : ${y}`);
+  q.close();
+});
+
+//1b
+let arr = [1, 3, 5, 7, 3, 5, 2, 2, 3, 3, 5, 2];
+
+let freq = {};
+let maxCount = 0;
+let mostFreqElement;
+
+for (let num of arr) {
+  freq[num] = (freq[num] || 0) + 1;
+
+  if (freq[num] > maxCount) {
+    maxCount = freq[num];
+    mostFreqElement = num;
+  }
+}
+console.log(
+  `The Most Frequent Element is : ${mostFreqElement} (appeared ${maxCount} times)`
+);
+
+//1c
+let ar = [12, 34, 45, 9, 8, 90, 34, 9, 12, 3];
+console.log("Original Array: " + ar);
+console.log("Duplicates removed array : " + [...new Set(ar)]);
+
+//1d
+function binarySearch(arb, target) {
+  let left = 0;
+  let right = arb.length - 1;
+
+  while (left <= right) {
+    let mid = Math.floor((left + right) / 2);
+
+    if (arb[mid] === target) {
+      return mid; // Found the target
+    } else if (arb[mid] < target) {
+      left = mid + 1; // Search right half
+    } else {
+      right = mid - 1; // Search left half
+    }
+  }
+
+  return -1; // Not found
+}
+
+// Example
+let arb = [2, 5, 7, 10, 13, 20];
+console.log(binarySearch(arb, 10)); // Output: 3
+
+//1e
+
+let object = {
+  name: "Jack",
+  age: 25,
+  college: "KMIT",
+  year: 3,
+  sem: 1,
+};
+
+let properties = Object.keys(object);
+
+console.log("Properties of the object:");
+console.log(properties);
+
+//1f
+
+let obj = {
+  name: "Jack",
+  age: 25,
+  college: "KMIT",
+  year: 3,
+  sem: 1,
+};
+
+console.log(obj.hasOwnProperty("name")); // true
+console.log(obj.hasOwnProperty("fee")); // false
+console.log("name" in obj); // true
+console.log("fee" in obj);
+
+//quicksort
+function quickSort(arr) {
+  if (arr.length <= 1) return arr;
+
+  const pivot = arr[arr.length - 1];
+  const left = [];
+  const right = [];
+
+  for (let i = 0; i < arr.length - 1; i++) {
+    if (arr[i] < pivot) left.push(arr[i]);
+    else right.push(arr[i]);
+  }
+
+  return [...quickSort(left), pivot, ...quickSort(right)];
+}
+
+const arq = [3, 0, 2, 5, -1, 4, 1];
+console.log("Original:", arq);
+console.log("Sorted:", quickSort(arq));
+
+//bubble sort
+
+function bubbleSort(arr) {
+  let n = arr.length;
+  for (let i = 0; i < n - 1; i++) {
+    for (let j = 0; j < n - i - 1; j++) {
+      if (arr[j] > arr[j + 1]) {
+        [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]]; // swap
+      }
+    }
+  }
+  return arr;
+}
+
+console.log(bubbleSort([3, 0, 2, 5, -1, 4, 1]));
+
+//
+
+
+
 1(i) Load from json
 (index.html)
 <!DOCTYPE html>
